@@ -14,6 +14,8 @@ else
 PKG_VERSION = $(PKG_MAJOR).$(PKG_MINOR).$(PKG_EXTRA)
 endif
 
+LDFLAGS_ORIG = $(LDFLAGS)
+
 ifeq ($(CROSS),)
 CC ?= cc
 AR ?= ar
@@ -266,9 +268,9 @@ PKGCFGF = $(BLDIR)/$(LIBNAME).pc
 
 all: $(LIBRARY) $(ARCHIVE) $(PKGCFGF)
 ifndef BUILDDIR
-	$(MAKE) -C tests LDFLAGS=
+	$(MAKE) -C tests LDFLAGS="$(LDFLAGS_ORIG)"
 else
-	$(MAKE) -C tests BUILDDIR=$(BLDIR) LDFLAGS=
+	$(MAKE) -C tests BUILDDIR=$(BLDIR) LDFLAGS="$(LDFLAGS_ORIG)"
 endif
 ifeq ($(CAPSTONE_SHARED),yes)
 	$(INSTALL_DATA) $(BLDIR)/lib$(LIBNAME).$(EXT) $(BLDIR)/tests/
